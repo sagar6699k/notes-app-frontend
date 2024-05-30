@@ -65,9 +65,20 @@ const Navbar = () => {
     setSearchQuery(e.target.value);
   };
 
+  //Approch-1 for implementing debouncing, using custom hook.
+  // useEffect(() => {
+  //   dispatch(searchNote(debouncedSearch));
+  // }, [debouncedSearch]);
+
+  //Approch-2 for implementing debouncing, direct useEffect.
   useEffect(() => {
-    dispatch(searchNote(debouncedSearch));
-  }, [debouncedSearch]);
+    const timer = setTimeout(() => {
+      dispatch(searchNote(searchQuery));
+    }, 800);
+
+    // Clear the timeout if the text changes before the delay time
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -86,7 +97,7 @@ const Navbar = () => {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="#"
             sx={{
               mr: 2,
               flexGrow: 1,

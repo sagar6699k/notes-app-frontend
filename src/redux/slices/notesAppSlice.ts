@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { notesDataType } from "../../models/notesType";
+import config from "../../config";
 
+const { BASE_URL } = config;
 export interface NotesState {
   notesData: notesDataType[];
   loading: boolean;
@@ -30,8 +32,7 @@ const initialState: NotesState = {
 export const createNote = createAsyncThunk(
   "notesApp/createNote",
   async (note: notesDataType) => {
-    const response = await fetch("http://localhost:5000/api/notes", {
-    // const response = await fetch("http://192.168.1.2:5000/api/notes", {
+    const response = await fetch(`${BASE_URL}/api/notes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,8 +51,7 @@ export const createNote = createAsyncThunk(
 export const fetchNoteById = createAsyncThunk(
   "notesApp/fetchNoteById",
   async (noteId: string | undefined) => {
-    const response = await fetch(`http://localhost:5000/api/notes/${noteId}`);
-    // const response = await fetch(`http://192.168.1.2:5000/api/notes/${noteId}`);
+    const response = await fetch(`${BASE_URL}/api/notes/${noteId}`);
     if (!response.ok) {
       throw new Error("Failed to fetch notes");
     }
@@ -66,8 +66,7 @@ export const updateNote = createAsyncThunk(
   "notesApp/updateNote",
   async (note: notesDataType) => {
     const response = await fetch(
-      `http://localhost:5000/api/notes/${note._id}`,
-      // `http://192.168.1.2:5000/api/notes/${note._id}`,
+      `${BASE_URL}/api/notes/${note._id}`,
       {
         method: "PUT",
         headers: {
@@ -88,10 +87,8 @@ export const updateNote = createAsyncThunk(
 export const searchNote = createAsyncThunk(
   "notesApp/searchNote",
   async (searchQuery: string) => {
-    
     const response = await fetch(
-      `http://localhost:5000/api/notes/search?query=${searchQuery}`,
-      // `http://192.168.1.2:5000/api/notes/search?query=${searchQuery}`,
+      `${BASE_URL}/api/notes/search?query=${searchQuery}`,
       {
         method: "POST",
         headers: {
@@ -111,8 +108,7 @@ export const searchNote = createAsyncThunk(
 export const deleteNote = createAsyncThunk(
   "notesApp/deleteNote",
   async (noteId: string | undefined) => {
-    const response = await fetch(`http://localhost:5000/api/notes/${noteId}`, {
-    // const response = await fetch(`http://192.168.1.2:5000/api/notes/${noteId}`, {
+    const response = await fetch(`${BASE_URL}/api/notes/${noteId}`, {
       method: "DELETE",
     });
     if (!response.ok) {
@@ -124,8 +120,7 @@ export const deleteNote = createAsyncThunk(
 
 //async thunk for fetching the notes from the api
 export const fetchNotes = createAsyncThunk("notesApp/fetchNotes", async () => {
-  const response = await fetch("http://localhost:5000/api/notes");
-  // const response = await fetch("http://192.168.1.2:5000/api/notes");
+  const response = await fetch(`${BASE_URL}/api/notes`);
   if (!response.ok) {
     throw new Error("Failed to fetch notes");
   }
