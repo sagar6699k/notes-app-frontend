@@ -1,106 +1,62 @@
+import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
-import {
-  Formik,
-  Field,
-  ErrorMessage,
-  FormikValues,
-  FormikHelpers,
-} from "formik";
-import * as Yup from "yup";
+import Signup from "../components/signup/Signup";
+import About from "../components/about/About";
 
-interface FormValues {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
 const LoginPage: React.FC = () => {
-  const initialValues: FormValues = {
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password")], "Passwords must match")
-      .required("Confirm Password is required"),
-  });
-
-  const handleSubmit = (
-    values: FormikValues,
-    { setSubmitting }: FormikHelpers<FormValues>
-  ) => {
-    console.log(values);
-  };
-
   return (
-    <div className="main">
-      <h1>Registration Form</h1>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+    <Stack
+      direction={{ xs: "column", sm: "row" }}
+      spacing={{ xs: 1, sm: 2, md: 0 }}
+      justifyContent="center"
+      alignItems="center"
+      width="70%"
+      marginX="auto"
+      marginTop={7}
+      pt={4}
+      height="85vh"
+    >
+      <Box
+        flex={1}
+        minHeight="100%"
+        p={2}
+        bgcolor="#FFFFFF"
+        sx={{ borderRadius: "0 0.5rem 0.5rem 0" }}
       >
-        {({ isSubmitting, errors, handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="name">
-              Name:
-              <Field
-                name="name"
-                type="text"
-                className={errors.name ? "error" : ""}
-              />
-              <ErrorMessage className="error" name="name" component="div" />
-            </label>
-            <label htmlFor="email">
-              Email:
-              <Field
-                name="email"
-                type="email"
-                className={errors.email ? "error" : ""}
-              />
-              <ErrorMessage className="error" name="email" component="div" />
-            </label>
-
-            <label htmlFor="password">
-              Password:
-              <Field
-                name="password"
-                type="password"
-                className={errors.password ? "error" : ""}
-              />
-              <ErrorMessage className="error" name="password" component="div" />
-            </label>
-
-            <label htmlFor="confirmPassword">
-              Confirm Password:
-              <Field
-                name="confirmPassword"
-                type="password"
-                className={errors.confirmPassword ? "error" : ""}
-              />
-              <ErrorMessage
-                className="error"
-                name="confirmPassword"
-                component="div"
-              />
-            </label>
-            <button type="submit" disabled={isSubmitting}>
-              Submit
-            </button>
-          </form>
-        )}
-      </Formik>
-    </div>
+        <Typography
+          textTransform="uppercase"
+          sx={{
+            fontSize: "2rem",
+            fontWeight: "600",
+            background:
+              "linear-gradient(200deg, #031739 0%, rgba(38, 130, 148, 0.88) 50%, #133d4c 97%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text", // For non-WebKit browsers
+            textFillColor: "transparent", // For non-WebKit browsers
+          }}
+          gutterBottom
+        >
+          Create Account
+        </Typography>
+        <Signup />
+      </Box>
+      <Box
+        flex={1}
+        display={{ xs: "none", sm: "block" }}
+        minHeight="100%"
+        p={2}
+        color="#FFFFFF"
+        sx={{
+          borderRadius: "0.5rem 0 0 0.5rem",
+          background:
+            "linear-gradient(200deg, #031739 0%, rgba(38, 130, 148, 0.88) 50%, #133d4c 97%)",
+        }}
+      >
+        <About />
+      </Box>
+    </Stack>
   );
 };
 
 export default LoginPage;
-

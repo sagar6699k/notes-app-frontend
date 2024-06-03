@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';import UpdateIcon from "@mui/icons-material/Update";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import {
@@ -14,6 +14,7 @@ import {
 } from "../../redux/slices/notesAppSlice";
 import { notesDataType } from "../../models/notesType";
 import { CircularProgress, IconButton, TextField } from "@mui/material";
+import useDate from "../../hooks/useDate";
 
 const style = {
   position: "absolute" as "absolute",
@@ -21,12 +22,16 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   // width: 550,
-  width: { xs: "90%", sm: "40%"},
+  width: { xs: "90%", sm: "40%" },
   bgcolor: "background.paper",
   border: "none !important",
   borderRadius: "0.5rem",
   boxShadow: 24,
-  p: 3,
+  // p: 3,
+  pt: 2,
+  pl: 2,
+  pr: 2,
+  pb: 0,
   "& > :not(style)": { mb: 2, width: "100%" },
 };
 
@@ -35,11 +40,14 @@ const EditModal: React.FC = () => {
     (state: RootState) => state.notesApp
   );
   const dispatch = useDispatch<AppDispatch>();
+  const [hover, sethover] = useState(false);
 
   const [notesData, setNotesData] = useState<notesDataType>({
     _id: "",
     title: "",
     detail: "",
+    createdAt: "",
+    updatedAt: "",
   });
 
   useEffect(() => {
@@ -48,6 +56,8 @@ const EditModal: React.FC = () => {
         _id: selectedNote._id || "",
         title: selectedNote.title || "",
         detail: selectedNote.detail || "",
+        createdAt: selectedNote.createdAt || "",
+        updatedAt: selectedNote.updatedAt || "",
       });
     }
   }, [selectedNote]);
@@ -70,6 +80,9 @@ const EditModal: React.FC = () => {
   const handleClose = () => {
     dispatch(handleModalClose());
   };
+
+  const updationDate = useDate(notesData.updatedAt as string);
+  const creationDate = useDate(notesData.createdAt as string);
 
   return (
     <div>
@@ -115,10 +128,10 @@ const EditModal: React.FC = () => {
                 id="detail"
                 name="detail"
                 value={notesData.detail}
-                label="Make a note..."
+                label={!notesData.detail && "Make a note..."}
                 variant="standard"
                 multiline
-                maxRows={4}
+                maxRows={8}
                 onChange={handleChange}
                 // required
               />
@@ -136,6 +149,32 @@ const EditModal: React.FC = () => {
               >
                 Update
               </Button>
+              <Box
+                onMouseEnter={() => sethover(true)}
+                onMouseLeave={() => sethover(false)}
+              >
+                {hover ? (
+                  <Box
+                    display="flex"
+                    justifyContent="end"
+                    alignItems="center"
+                    fontSize={12}
+                  >
+                    <AccessTimeIcon sx={{ fontSize: "1.3rem", color: "gray" }} />
+                    Created at {creationDate}
+                  </Box>
+                ) : (
+                  <Box
+                    display="flex"
+                    justifyContent="end"
+                    alignItems="center"
+                    fontSize={12}
+                  >
+                    <UpdateIcon sx={{ fontSize: "1.3rem", color: "gray" }} />
+                    Updated at {updationDate}
+                  </Box>
+                )}
+              </Box>
             </Box>
           )}
         </Fade>

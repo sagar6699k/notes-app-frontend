@@ -21,8 +21,6 @@ const DisplayNotes = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [columns, setColumns] = useState(4);
 
-  console.log("notesData____>", notesData);
-
   useEffect(() => {
     dispatch(fetchNotes());
 
