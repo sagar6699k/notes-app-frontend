@@ -10,9 +10,9 @@ function App() {
     <div className="App">
       <Navbar />
       <CssBaseline />
-      {/* <LandingPage /> */}
+      <LandingPage />
       {/* <SignupPage /> */}
-      <LoginPage />
+      {/* <LoginPage /> */}
     </div>
   );
 }

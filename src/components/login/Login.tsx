@@ -4,28 +4,20 @@ import * as Yup from "yup";
 import { Box, Button, Checkbox, TextField, Typography } from "@mui/material";
 
 interface FormValues {
-  Fullname: string;
   email: string;
   password: string;
-  confirmPassword: string;
 }
-const Signup: React.FC = () => {
+const Login: React.FC = () => {
   const initialValues: FormValues = {
-    Fullname: "",
     email: "",
     password: "",
-    confirmPassword: "",
   };
 
   const validationSchema = Yup.object().shape({
-    Fullname: Yup.string().required("Fullname is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password")], "Passwords must match")
-      .required("Confirm Password is required"),
   });
 
   const handleSubmit = (
@@ -59,31 +51,13 @@ const Signup: React.FC = () => {
               component="form"
               onSubmit={handleSubmit}
               onReset={handleReset}
-              width="100%"
+              width="90%"
               display="flex"
               flexDirection="column"
               m="auto"
               sx={{ p: 2, borderRadius: "1rem" }}
+              bgcolor="#FFFFFF"
             >
-              <TextField
-                id="Fullname"
-                label="Enter your fullname"
-                variant="standard"
-                value={values.Fullname}
-                type="text"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                helperText={
-                  errors.Fullname && touched.Fullname ? errors.Fullname : ""
-                }
-                // error={errors.Fullname && touched.Fullname ? true : false}
-                sx={{
-                  marginBottom: "1.5rem",
-                  "& .MuiFormHelperText-root": {
-                    color: "red",
-                  },
-                }}
-              />
               <TextField
                 id="email"
                 label="Enter your email"
@@ -93,8 +67,6 @@ const Signup: React.FC = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 helperText={errors.email && touched.email ? errors.email : ""}
-                // error={errors.email && touched.email ? true : false}
-
                 sx={{
                   marginBottom: "1.5rem",
                   "& .MuiFormHelperText-root": {
@@ -113,27 +85,6 @@ const Signup: React.FC = () => {
                 helperText={
                   errors.password && touched.password ? errors.password : ""
                 }
-                // error={errors.password && touched.password ? true : false}
-                sx={{
-                  marginBottom: "1.5rem",
-                  "& .MuiFormHelperText-root": {
-                    color: "red",
-                  },
-                }}
-              />
-              <TextField
-                id="confirmPassword"
-                label="Confirm Password"
-                variant="standard"
-                value={values.confirmPassword}
-                type="password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                helperText={
-                  errors.confirmPassword && touched.confirmPassword
-                    ? errors.confirmPassword
-                    : ""
-                }
                 sx={{
                   marginBottom: "1.5rem",
                   "& .MuiFormHelperText-root": {
@@ -143,18 +94,13 @@ const Signup: React.FC = () => {
               />
 
               <Box display="flex" alignItems="center">
-                <Checkbox
-                  // checked={checked}
-                  // onChange={handleChange}
-                  inputProps={{ "aria-label": "controlled" }}
-                />
+                <Checkbox inputProps={{ "aria-label": "controlled" }} />
                 <Typography
                   sx={{
-                    fontSize: { xs: "0.6rem", sm: "0.7rem", md: "0.8rem" },
+                    fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.8rem" },
                   }}
                 >
-                  I agree to{" "}
-                  <span style={{ color: "#068cfa" }}>terms and conditions</span>
+                  Remember me
                 </Typography>
               </Box>
 
@@ -168,7 +114,7 @@ const Signup: React.FC = () => {
                     "linear-gradient(200deg, #031739 0%, rgba(38, 130, 148, 0.88) 50%, #133d4c 97%)",
                 }}
               >
-                Signup
+                Login
               </Button>
             </Box>
           );
@@ -178,4 +124,4 @@ const Signup: React.FC = () => {
   );
 };
 
-export default Signup;
+export default Login;
